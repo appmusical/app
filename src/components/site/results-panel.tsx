@@ -2,7 +2,7 @@
 
 import { ChevronDown, ListMusic } from "lucide-react";
 import { Band, SortOption } from "@/lib/types";
-import { BandCard } from "./band-card";
+import { BandListRow } from "./band-list-row";
 import { SortSelect } from "./sort-select";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +22,7 @@ export function ResultsPanel({
   onToggle: () => void;
 }) {
   return (
-    <section className="rounded-3xl border border-border bg-surface/60">
+    <section className="rounded-3xl border border-border bg-white shadow-[var(--shadow-card)]">
       <button
         onClick={onToggle}
         className="flex w-full items-center justify-between gap-3 px-4 py-4 sm:px-5"
@@ -59,9 +59,9 @@ export function ResultsPanel({
             </div>
           ) : (
             <div className="scroll-thin max-h-[68vh] overflow-y-auto pr-1 sm:max-h-[560px]">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {bands.slice(0, 5).map((band) => (
-                  <BandCard key={band.id} band={band} />
+              <div className="flex flex-col gap-2">
+                {bands.slice(0, 5).map((band, i) => (
+                  <BandListRow key={band.id} band={band} showAvailable={i % 2 === 0} />
                 ))}
               </div>
             </div>

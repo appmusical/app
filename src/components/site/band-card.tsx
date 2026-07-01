@@ -18,7 +18,7 @@ export function BandCard({
     <Link
       href={`/bandas/${band.slug}`}
       className={cn(
-        "group relative flex shrink-0 flex-col overflow-hidden rounded-2xl bg-surface transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+        "group relative flex shrink-0 flex-col overflow-hidden rounded-2xl bg-surface shadow-[var(--shadow-card)] transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
         compact ? "w-[168px] sm:w-[190px]" : "w-full"
       )}
     >
