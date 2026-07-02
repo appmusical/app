@@ -36,9 +36,9 @@ export function TopBar({
             <span className="font-display text-lg font-bold tracking-tight">Tarima</span>
           </Link>
 
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-2">
             <AuthStatus />
-            <Button asChild variant="secondary" size="sm">
+            <Button asChild variant="secondary" size="sm" className="px-3.5">
               <Link href="/agregar-banda">
                 <span className="sm:hidden">Agregar banda</span>
                 <span className="hidden sm:inline">Agrega tu banda</span>

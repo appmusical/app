@@ -7,6 +7,7 @@ import { LogOut, User } from "lucide-react";
 import type { SupabaseClient, User as SupabaseUser } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import { LoginFields } from "./login-fields";
 
 export function AuthStatus() {
@@ -46,13 +47,10 @@ export function AuthStatus() {
   if (!user) {
     return (
       <>
-        <button
-          onClick={() => setSheetOpen(true)}
-          className="flex items-center gap-1.5 text-sm font-semibold text-foreground"
-        >
-          <User className="h-4 w-4" />
-          <span className="hidden sm:inline">Iniciar sesión</span>
-        </button>
+        <Button variant="outline" size="sm" onClick={() => setSheetOpen(true)} className="gap-1.5 px-3.5">
+          <User className="h-3.5 w-3.5" />
+          Iniciar sesión
+        </Button>
 
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <SheetContent title="Inicia sesión">
@@ -73,9 +71,9 @@ export function AuthStatus() {
   }
 
   return (
-    <button onClick={handleSignOut} className="flex items-center gap-1.5 text-sm text-muted" title={user.email}>
-      <LogOut className="h-4 w-4" />
-      <span className="hidden sm:inline">Salir</span>
-    </button>
+    <Button variant="ghost" size="sm" onClick={handleSignOut} className="gap-1.5 text-muted" title={user.email}>
+      <LogOut className="h-3.5 w-3.5" />
+      Salir
+    </Button>
   );
 }
