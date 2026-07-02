@@ -46,6 +46,9 @@ export function LoginFields({ next, onSent }: { next?: string | null; onSent?: (
           Te enviamos un link a <b className="text-foreground">{email}</b>. Ábrelo desde este mismo navegador para
           entrar — no hace falta que cierres esta pestaña.
         </p>
+        <p className="mt-3 text-xs text-muted">
+          ¿No lo ves? Revisa también la carpeta de <b className="text-foreground">spam o correo no deseado</b>.
+        </p>
       </div>
     );
   }
