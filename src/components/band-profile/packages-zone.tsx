@@ -11,7 +11,7 @@ export function PackagesZone({ packages }: { packages: Package[] }) {
   return (
     <section className="mt-8">
       <h2 className="mx-4 mb-3.5 text-[17px] font-bold sm:mx-6">Paquetes por presentación</h2>
-      <div className="scroll-thin flex gap-2.5 overflow-x-auto px-4 pb-1 sm:px-6">
+      <div className="scroll-thin flex gap-2.5 overflow-x-auto px-4 pb-1 pt-3 sm:px-6">
         {packages.map((pkg) => (
           <div
             key={pkg.id}

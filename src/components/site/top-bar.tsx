@@ -4,13 +4,7 @@ import Link from "next/link";
 import { Music2, Search, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { NativeSelect } from "@/components/ui/native-select";
 import { CITIES, GENRES } from "@/lib/mock-data";
 
 export function TopBar({
@@ -67,39 +61,35 @@ export function TopBar({
           </Button>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <Select value={city ?? "all"} onValueChange={(v) => onCityChange(v === "all" ? null : v)}>
-            <SelectTrigger className="w-auto min-w-[9.5rem]">
-              <SelectValue placeholder="Ciudad" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todas las ciudades</SelectItem>
-              {CITIES.map((c) => (
-                <SelectItem key={c} value={c}>
-                  {c}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="flex items-center gap-2">
+          <div className="grid flex-1 grid-cols-2 gap-2 sm:flex-none sm:flex">
+            <NativeSelect
+              aria-label="Ciudad"
+              className="sm:w-[10.5rem]"
+              value={city ?? "all"}
+              onChange={(v) => onCityChange(v === "all" ? null : v)}
+              options={[
+                { value: "all", label: "Todas las ciudades" },
+                ...CITIES.map((c) => ({ value: c, label: c })),
+              ]}
+            />
 
-          <Select value={genre ?? "all"} onValueChange={(v) => onGenreChange(v === "all" ? null : v)}>
-            <SelectTrigger className="w-auto min-w-[9.5rem]">
-              <SelectValue placeholder="Género musical" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos los géneros</SelectItem>
-              {GENRES.map((g) => (
-                <SelectItem key={g} value={g}>
-                  {g}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            <NativeSelect
+              aria-label="Género musical"
+              className="sm:w-[10.5rem]"
+              value={genre ?? "all"}
+              onChange={(v) => onGenreChange(v === "all" ? null : v)}
+              options={[
+                { value: "all", label: "Todos los géneros" },
+                ...GENRES.map((g) => ({ value: g, label: g })),
+              ]}
+            />
+          </div>
 
           <Button
             variant="outline"
             size="sm"
-            className="hidden items-center gap-1.5 sm:inline-flex"
+            className="hidden shrink-0 items-center gap-1.5 sm:inline-flex"
             onClick={onOpenFilters}
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />

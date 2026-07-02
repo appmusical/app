@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { NativeSelect } from "@/components/ui/native-select";
 import { SortOption } from "@/lib/types";
 
 const OPTIONS: { value: SortOption; label: string }[] = [
@@ -25,17 +19,12 @@ export function SortSelect({
   onChange: (v: SortOption) => void;
 }) {
   return (
-    <Select value={value} onValueChange={(v) => onChange(v as SortOption)}>
-      <SelectTrigger className="w-auto min-w-[10.5rem]">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        {OPTIONS.map((o) => (
-          <SelectItem key={o.value} value={o.value}>
-            {o.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <NativeSelect
+      aria-label="Ordenar por"
+      className="w-[10.5rem]"
+      value={value}
+      onChange={(v) => onChange(v as SortOption)}
+      options={OPTIONS}
+    />
   );
 }
