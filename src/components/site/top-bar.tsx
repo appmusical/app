@@ -5,6 +5,7 @@ import { Music2, Search, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { NativeSelect } from "@/components/ui/native-select";
+import { AuthStatus } from "@/components/auth/auth-status";
 import { CITIES, GENRES } from "@/lib/mock-data";
 
 export function TopBar({
@@ -35,12 +36,15 @@ export function TopBar({
             <span className="font-display text-lg font-bold tracking-tight">Tarima</span>
           </Link>
 
-          <Button asChild variant="secondary" size="sm">
-            <Link href="/agregar-banda">
-              <span className="sm:hidden">Agregar banda</span>
-              <span className="hidden sm:inline">Agrega tu banda</span>
-            </Link>
-          </Button>
+          <div className="flex items-center gap-3.5">
+            <AuthStatus />
+            <Button asChild variant="secondary" size="sm">
+              <Link href="/agregar-banda">
+                <span className="sm:hidden">Agregar banda</span>
+                <span className="hidden sm:inline">Agrega tu banda</span>
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">

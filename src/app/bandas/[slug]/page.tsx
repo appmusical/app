@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { MOCK_BANDS, getPackagesForBand, getReviewsForBand, getOccupiedDaysForBand } from "@/lib/mock-data";
+import { createClient } from "@/lib/supabase/server";
 import { ProfileHeader } from "@/components/band-profile/profile-header";
 import { IdentityZone } from "@/components/band-profile/identity-zone";
 import { GalleryZone } from "@/components/band-profile/gallery-zone";
@@ -32,6 +33,10 @@ export default async function BandProfilePage({ params }: { params: Promise<{ sl
   const band = MOCK_BANDS.find((b) => b.slug === slug);
   if (!band) notFound();
 
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  const isLoggedIn = !!data?.claims;
+
   const packages = getPackagesForBand(band);
   const reviews = getReviewsForBand(band);
   const occupiedDays = getOccupiedDaysForBand(band);
@@ -43,7 +48,7 @@ export default async function BandProfilePage({ params }: { params: Promise<{ sl
       <IdentityZone band={band} />
       <GalleryZone images={galleryImages} bandName={band.name} />
       <DescriptionZone band={band} />
-      <ReviewsZone reviews={reviews} rating={band.rating} reviewCount={band.reviewCount} />
+      <ReviewsZone reviews={reviews} rating={band.rating} reviewCount={band.reviewCount} isLoggedIn={isLoggedIn} />
       <PackagesZone packages={packages} />
       <AvailabilityZone occupiedDays={occupiedDays} packages={packages} />
     </div>

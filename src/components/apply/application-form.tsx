@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { createClient } from "@/lib/supabase/client";
 import { BandDataZone, BandDataValues } from "./band-data-zone";
 import { RepresentativeZone, RepresentativeValues } from "./representative-zone";
 import { VerificationZone } from "./verification-zone";
@@ -26,6 +28,12 @@ const EMPTY_REPRESENTATIVE: RepresentativeValues = {
 };
 
 export function ApplicationForm() {
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [gateEmail, setGateEmail] = useState("");
+  const [gateSending, setGateSending] = useState(false);
+  const [gateSent, setGateSent] = useState(false);
+
   const [bandData, setBandData] = useState(EMPTY_BAND_DATA);
   const [representative, setRepresentative] = useState(EMPTY_REPRESENTATIVE);
   const [idPhotoFile, setIdPhotoFile] = useState<File | null>(null);
@@ -33,6 +41,28 @@ export function ApplicationForm() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      setIsLoggedIn(!!data.user);
+      setCheckingAuth(false);
+    });
+  }, []);
+
+  async function handleGateSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setGateSending(true);
+    const supabase = createClient();
+    const redirectTo = new URL("/auth/callback", window.location.origin);
+    redirectTo.searchParams.set("next", "/agregar-banda");
+    await supabase.auth.signInWithOtp({
+      email: gateEmail,
+      options: { emailRedirectTo: redirectTo.toString() },
+    });
+    setGateSending(false);
+    setGateSent(true);
+  }
 
   const isComplete =
     bandData.bandName &&
@@ -62,6 +92,56 @@ export function ApplicationForm() {
 
   if (submitted) {
     return <ApplicationSuccess bandName={bandData.bandName} />;
+  }
+
+  if (checkingAuth) {
+    return <div className="mx-auto h-[70vh] max-w-xl" />;
+  }
+
+  if (!isLoggedIn) {
+    if (gateSent) {
+      return (
+        <div className="mx-auto flex min-h-[70vh] max-w-sm flex-col items-center justify-center px-6 text-center">
+          <span className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-soft">
+            <Mail className="h-7 w-7 text-green" />
+          </span>
+          <h1 className="font-display text-xl font-bold">Revisa tu correo</h1>
+          <p className="mt-2.5 text-sm text-muted">
+            Te enviamos un link a <b className="text-foreground">{gateEmail}</b>. Ábrelo para volver aquí y
+            continuar con la solicitud.
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="mx-auto flex min-h-[70vh] max-w-sm flex-col justify-center px-6">
+        <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted">
+          <ArrowLeft className="h-4 w-4" /> Volver
+        </Link>
+        <h1 className="font-display text-2xl font-bold">Crea la cuenta de tu banda</h1>
+        <p className="mt-1.5 text-sm text-muted">
+          Antes de llenar la solicitud, necesitamos un correo para poder darte acceso a tu panel una vez que se
+          apruebe. Es distinto de una cuenta de usuario normal.
+        </p>
+        <form onSubmit={handleGateSubmit} className="mt-6 flex flex-col gap-3">
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-2" />
+            <Input
+              type="email"
+              required
+              value={gateEmail}
+              onChange={(e) => setGateEmail(e.target.value)}
+              placeholder="correo@tubanda.com"
+              className="pl-10"
+            />
+          </div>
+          <Button type="submit" disabled={gateSending || !gateEmail} className="w-full">
+            {gateSending ? "Enviando…" : "Continuar"}
+          </Button>
+        </form>
+      </div>
+    );
   }
 
   return (
