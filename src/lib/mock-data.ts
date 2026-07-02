@@ -1,4 +1,4 @@
-import { Band, Package, Review } from "./types";
+import { Band, Package, Review, BandApplication } from "./types";
 
 export const CITIES = [
   "Cancún",
@@ -345,4 +345,58 @@ export function getOccupiedDaysForBand(band: Band): number[] {
   const seed = band.id.charCodeAt(0);
   return [5, 12, 13, 20, 27].map((d) => ((d + seed) % 27) + 1);
 }
+
+// ---------------------------------------------------------------------
+// Solicitudes de registro de banda (mock) — alimentan el admin general
+// ---------------------------------------------------------------------
+export const MOCK_APPLICATIONS: BandApplication[] = [
+  {
+    id: "app-1",
+    bandName: "Frontera Sound",
+    city: "Monterrey",
+    genre: "Norteño",
+    membersCount: 6,
+    yearsActive: 4,
+    facebookUrl: "https://facebook.com/fronterasound",
+    instagramUrl: "https://instagram.com/fronterasound",
+    representativeName: "Ana Belén Torres",
+    representativeWhatsapp: "+52 81 1234 5678",
+    representativeEmail: "contacto@fronterasound.com",
+    representativeIdPhotoUrl: "https://picsum.photos/seed/id-1/400/260",
+    status: "pendiente",
+    submittedAt: "2026-06-28T10:15:00-06:00",
+  },
+  {
+    id: "app-2",
+    bandName: "Marea Alta",
+    city: "Tulum",
+    genre: "Electrónica",
+    membersCount: 3,
+    yearsActive: 2,
+    facebookUrl: "https://facebook.com/mareaalta",
+    instagramUrl: "https://instagram.com/mareaalta",
+    representativeName: "Rodrigo Islas",
+    representativeWhatsapp: "+52 984 987 6543",
+    representativeEmail: "rodrigo@mareaalta.mx",
+    representativeIdPhotoUrl: "https://picsum.photos/seed/id-2/400/260",
+    status: "pendiente",
+    submittedAt: "2026-06-29T18:40:00-06:00",
+  },
+  {
+    id: "app-3",
+    bandName: "Trío Manantial",
+    city: "Puebla",
+    genre: "Versátil",
+    membersCount: 3,
+    yearsActive: 9,
+    facebookUrl: "https://facebook.com/triomanantial",
+    instagramUrl: "https://instagram.com/triomanantial",
+    representativeName: "Lucía Hernández",
+    representativeWhatsapp: "+52 222 345 6789",
+    representativeEmail: "lucia@triomanantial.com",
+    representativeIdPhotoUrl: "https://picsum.photos/seed/id-3/400/260",
+    status: "aprobada",
+    submittedAt: "2026-06-20T09:00:00-06:00",
+  },
+];
 

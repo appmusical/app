@@ -53,6 +53,26 @@ export interface Package {
   includes: string[];
 }
 
+export type ApplicationStatus = "pendiente" | "aprobada" | "rechazada";
+
+export interface BandApplication {
+  id: string;
+  bandName: string;
+  city: string;
+  genre: string;
+  membersCount: number;
+  yearsActive: number;
+  facebookUrl: string;
+  instagramUrl: string;
+  representativeName: string;
+  representativeWhatsapp: string;
+  representativeEmail: string;
+  representativeIdPhotoUrl: string;
+  status: ApplicationStatus;
+  submittedAt: string;
+  rejectionReason?: string;
+}
+
 export type SortOption =
   | "recomendados"
   | "precio-asc"
