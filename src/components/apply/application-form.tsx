@@ -30,6 +30,7 @@ const EMPTY_REPRESENTATIVE: RepresentativeValues = {
 export function ApplicationForm() {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
   const [gateEmail, setGateEmail] = useState("");
   const [gateSending, setGateSending] = useState(false);
   const [gateSent, setGateSent] = useState(false);
@@ -42,11 +43,13 @@ export function ApplicationForm() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }) => {
       setIsLoggedIn(!!data.user);
+      setUserId(data.user?.id ?? null);
       setCheckingAuth(false);
     });
   }, []);
@@ -90,16 +93,49 @@ export function ApplicationForm() {
     idPhotoFile &&
     acceptedTerms;
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!isComplete) return;
+    if (!isComplete || !idPhotoFile || !userId) return;
     setSubmitting(true);
-    // Mock: aquí se sube la foto a Supabase Storage y se inserta en
-    // band_applications. Por ahora simulamos la confirmación.
-    setTimeout(() => {
+    setSubmitError(null);
+
+    const supabase = createClient();
+
+    try {
+      const ext = idPhotoFile.name.split(".").pop() || "jpg";
+      const path = `${userId}/${Date.now()}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("verification-ids")
+        .upload(path, idPhotoFile, { contentType: idPhotoFile.type });
+      if (uploadError) throw uploadError;
+
+      const { error: insertError } = await supabase.from("band_applications").insert({
+        applicant_id: userId,
+        band_name: bandData.bandName,
+        city: bandData.city,
+        genre: bandData.genre,
+        members_count: Number(bandData.membersCount),
+        years_active: Number(bandData.yearsActive),
+        facebook_url: bandData.facebookUrl,
+        instagram_url: bandData.instagramUrl,
+        representative_name: representative.representativeName,
+        representative_whatsapp: representative.representativeWhatsapp,
+        representative_email: representative.representativeEmail,
+        representative_id_photo_url: path,
+      });
+      if (insertError) throw insertError;
+
       setSubmitting(false);
       setSubmitted(true);
-    }, 700);
+    } catch (err) {
+      setSubmitting(false);
+      setSubmitError(
+        err instanceof Error
+          ? `No pudimos enviar la solicitud: ${err.message}`
+          : "No pudimos enviar la solicitud. Intenta de nuevo."
+      );
+    }
   }
 
   if (submitted) {
@@ -188,6 +224,7 @@ export function ApplicationForm() {
         <Button type="submit" disabled={!isComplete || submitting} className="w-full">
           {submitting ? "Enviando…" : "Enviar solicitud"}
         </Button>
+        {submitError && <p className="text-center text-xs text-accent">{submitError}</p>}
       </form>
     </div>
   );

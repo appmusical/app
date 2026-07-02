@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { StatusBadge } from "./status-badge";
 import { BandApplication } from "@/lib/types";
+import { createClient } from "@/lib/supabase/client";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" });
@@ -16,11 +17,30 @@ export function ApplicationsTable({ initialApplications }: { initialApplications
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [rejecting, setRejecting] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
+  const [processing, setProcessing] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   const selected = applications.find((a) => a.id === selectedId) ?? null;
   const pendingCount = applications.filter((a) => a.status === "pendiente").length;
 
-  function updateStatus(id: string, status: "aprobada" | "rechazada", reason?: string) {
+  async function updateStatus(id: string, status: "aprobada" | "rechazada", reason?: string) {
+    setProcessing(true);
+    setActionError(null);
+    const supabase = createClient();
+
+    const { error } = await supabase.rpc("review_band_application", {
+      p_application_id: id,
+      p_decision: status,
+      p_rejection_reason: reason ?? null,
+    });
+
+    setProcessing(false);
+
+    if (error) {
+      setActionError(`No se pudo procesar: ${error.message}`);
+      return;
+    }
+
     setApplications((prev) => prev.map((a) => (a.id === id ? { ...a, status, rejectionReason: reason } : a)));
     setSelectedId(null);
     setRejecting(false);
@@ -141,6 +161,7 @@ export function ApplicationsTable({ initialApplications }: { initialApplications
 
             {selected.status === "pendiente" && (
               <div className="mt-6 border-t border-border pt-5">
+                {actionError && <p className="mb-3 text-xs text-accent">{actionError}</p>}
                 {rejecting ? (
                   <div className="flex flex-col gap-2.5">
                     <textarea
@@ -150,27 +171,44 @@ export function ApplicationsTable({ initialApplications }: { initialApplications
                       className="min-h-20 w-full rounded-xl border border-border bg-surface p-3 text-sm outline-none focus-visible:border-primary"
                     />
                     <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="flex-1" onClick={() => setRejecting(false)}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1"
+                        disabled={processing}
+                        onClick={() => setRejecting(false)}
+                      >
                         Cancelar
                       </Button>
                       <Button
                         variant="accent"
                         size="sm"
                         className="flex-1"
-                        disabled={!rejectionReason.trim()}
+                        disabled={!rejectionReason.trim() || processing}
                         onClick={() => updateStatus(selected.id, "rechazada", rejectionReason.trim())}
                       >
-                        Confirmar rechazo
+                        {processing ? "Procesando…" : "Confirmar rechazo"}
                       </Button>
                     </div>
                   </div>
                 ) : (
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1" onClick={() => setRejecting(true)}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      disabled={processing}
+                      onClick={() => setRejecting(true)}
+                    >
                       <XIcon className="h-3.5 w-3.5" /> Rechazar
                     </Button>
-                    <Button size="sm" className="flex-1" onClick={() => updateStatus(selected.id, "aprobada")}>
-                      <Check className="h-3.5 w-3.5" /> Aceptar
+                    <Button
+                      size="sm"
+                      className="flex-1"
+                      disabled={processing}
+                      onClick={() => updateStatus(selected.id, "aprobada")}
+                    >
+                      <Check className="h-3.5 w-3.5" /> {processing ? "Procesando…" : "Aceptar"}
                     </Button>
                   </div>
                 )}
