@@ -15,6 +15,9 @@
   --color-green: var(--green);
   --color-green-soft: var(--green-soft);
   --color-green-foreground: var(--green-foreground);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-amber-foreground: var(--amber-foreground);
   --color-border: var(--border);
 
   --font-display: "Space Grotesk", var(--font-sans);
@@ -38,8 +41,12 @@
   --green: #16a34a;
   --green-soft: #16a34a1a;
   --green-foreground: #ffffff;
+  --amber: #f59e0b;
+  --amber-soft: #f59e0b1a;
+  --amber-foreground: #ffffff;
   --border: #e4e4e9;
   --shadow-card: 0 1px 2px rgba(20, 20, 25, 0.04), 0 1px 8px rgba(20, 20, 25, 0.06);
+  --shadow-lift: 0 8px 24px rgba(20, 20, 25, 0.1);
 }
 
 * {
@@ -48,6 +55,14 @@
 
 html {
   color-scheme: light;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+  overscroll-behavior-y: none;
+  touch-action: manipulation;
 }
 
 body {
@@ -55,6 +70,15 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Evita el zoom automático de iOS al enfocar campos (la causa real es el
+   tamaño de letra menor a 16px, no el pellizco-zoom, así que no lo desactivamos). */
+input,
+select,
+textarea,
+button {
+  font-size: 16px;
 }
 
 ::selection {

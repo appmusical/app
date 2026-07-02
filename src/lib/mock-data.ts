@@ -1,4 +1,4 @@
-import { Band, Review } from "./types";
+import { Band, Package, Review } from "./types";
 
 export const CITIES = [
   "Cancún",
@@ -273,3 +273,76 @@ export const MOCK_REVIEWS: Review[] = [
     date: "2026-02-14",
   },
 ];
+
+// ---------------------------------------------------------------------
+// Generadores usados en el perfil de banda (mock, listos para reemplazar
+// por datos reales de Supabase con la misma forma)
+// ---------------------------------------------------------------------
+export function getPackagesForBand(band: Band): Package[] {
+  return [
+    {
+      id: "esencial",
+      name: "Esencial",
+      price: band.priceFrom,
+      popular: false,
+      includes: [
+        "2 horas de show",
+        `Banda completa (${band.members} integrantes)`,
+        "Sonido básico incluido",
+      ],
+    },
+    {
+      id: "premium",
+      name: "Premium",
+      price: Math.round((band.priceFrom * 1.4) / 500) * 500,
+      popular: true,
+      includes: [
+        "3 horas de show",
+        `Banda completa (${band.members} integrantes)`,
+        "Sonido e iluminación",
+        "1 hora extra de cortesía",
+      ],
+    },
+    {
+      id: "todo-incluido",
+      name: "Todo incluido",
+      price: Math.round((band.priceFrom * 1.9) / 500) * 500,
+      popular: false,
+      includes: [
+        "4 horas de show",
+        `Banda completa (${band.members} integrantes)`,
+        "Sonido, iluminación y pantallas",
+        "DJ de respaldo incluido",
+        "Coordinación de repertorio personalizada",
+      ],
+    },
+  ];
+}
+
+const REVIEW_TEMPLATES: { author: string; comment: string }[] = [
+  { author: "Fernanda R.", comment: "Hicieron nuestro evento inolvidable, muy profesionales con los tiempos." },
+  { author: "Jorge M.", comment: "Excelente energía, todos bailando toda la noche. Muy recomendados." },
+  { author: "Carla T.", comment: "Muy buenos, el único detalle fue que llegaron justos de tiempo para el montaje." },
+  { author: "Diego A.", comment: "Sonido increíble y muy atentos a las peticiones de canciones." },
+  { author: "Marisol V.", comment: "Los volvería a contratar sin pensarlo. 100% recomendados." },
+  { author: "Héctor P.", comment: "Cumplieron todo lo acordado y el repertorio fue justo lo que buscábamos." },
+];
+
+export function getReviewsForBand(band: Band): Review[] {
+  return REVIEW_TEMPLATES.map((t, i) => ({
+    id: `${band.id}-r${i}`,
+    bandId: band.id,
+    author: t.author,
+    rating: i === 2 ? 4 : 5,
+    comment: t.comment,
+    eventType: band.specialties[i % band.specialties.length],
+    date: "2026-0" + ((i % 6) + 1) + "-10",
+  }));
+}
+
+/** Días ocupados del mes en curso, determinísticos por banda (mock). */
+export function getOccupiedDaysForBand(band: Band): number[] {
+  const seed = band.id.charCodeAt(0);
+  return [5, 12, 13, 20, 27].map((d) => ((d + seed) % 27) + 1);
+}
+

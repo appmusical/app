@@ -45,6 +45,14 @@ export interface Review {
   date: string;
 }
 
+export interface Package {
+  id: string;
+  name: string;
+  price: number;
+  popular: boolean;
+  includes: string[];
+}
+
 export type SortOption =
   | "recomendados"
   | "precio-asc"
