@@ -9,6 +9,9 @@ import { BandNameZone } from "./band-name-zone";
 import { GalleryManagerZone } from "./gallery-manager-zone";
 import { DescriptionZoneAdmin } from "./description-zone-admin";
 import { SpecialtiesZoneAdmin } from "./specialties-zone-admin";
+import { PackagesZoneAdmin } from "./packages-zone-admin";
+import { AvailabilityZoneAdmin } from "./availability-zone-admin";
+import { getPackagesForBand, getOccupiedDaysForBand } from "@/lib/mock-data";
 import { Band, Specialty } from "@/lib/types";
 
 export function BandAdminClient({ band }: { band: Band }) {
@@ -18,6 +21,8 @@ export function BandAdminClient({ band }: { band: Band }) {
     `${band.name} lleva más de 10 años llevando la fiesta a ${band.specialties.join(", ").toLowerCase()} en ${band.city}.`
   );
   const [specialties, setSpecialties] = useState<Specialty[]>(band.specialties);
+  const [packages, setPackages] = useState(() => getPackagesForBand(band));
+  const [occupiedDays, setOccupiedDays] = useState(() => getOccupiedDaysForBand(band));
   const [saving, setSaving] = useState(false);
   const [savedAt, setSavedAt] = useState<number | null>(null);
 
@@ -45,6 +50,8 @@ export function BandAdminClient({ band }: { band: Band }) {
         />
         <DescriptionZoneAdmin value={description} onChange={setDescription} />
         <SpecialtiesZoneAdmin selected={specialties} onChange={setSpecialties} />
+        <PackagesZoneAdmin packages={packages} onChange={setPackages} />
+        <AvailabilityZoneAdmin occupiedDays={occupiedDays} onChange={setOccupiedDays} />
       </div>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-white px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 sm:px-6">
