@@ -33,6 +33,7 @@ export function ApplicationForm() {
   const [gateEmail, setGateEmail] = useState("");
   const [gateSending, setGateSending] = useState(false);
   const [gateSent, setGateSent] = useState(false);
+  const [gateError, setGateError] = useState<string | null>(null);
 
   const [bandData, setBandData] = useState(EMPTY_BAND_DATA);
   const [representative, setRepresentative] = useState(EMPTY_REPRESENTATIVE);
@@ -53,14 +54,25 @@ export function ApplicationForm() {
   async function handleGateSubmit(e: React.FormEvent) {
     e.preventDefault();
     setGateSending(true);
+    setGateError(null);
     const supabase = createClient();
     const redirectTo = new URL("/auth/callback", window.location.origin);
     redirectTo.searchParams.set("next", "/agregar-banda");
-    await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.signInWithOtp({
       email: gateEmail,
       options: { emailRedirectTo: redirectTo.toString() },
     });
     setGateSending(false);
+
+    if (error) {
+      if (error.status === 429 || error.code === "over_email_send_rate_limit") {
+        setGateError("Espera un par de minutos antes de volver a intentar — mandaste otro link hace muy poco.");
+      } else {
+        setGateError("No pudimos enviar el link. Verifica tu correo e intenta de nuevo.");
+      }
+      return;
+    }
+
     setGateSent(true);
   }
 
@@ -142,6 +154,7 @@ export function ApplicationForm() {
           <Button type="submit" disabled={gateSending || !gateEmail} className="w-full">
             {gateSending ? "Enviando…" : "Continuar"}
           </Button>
+          {gateError && <p className="text-center text-xs text-accent">{gateError}</p>}
         </form>
       </div>
     );

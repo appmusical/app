@@ -27,10 +27,16 @@ export function LoginFields({ next, onSent }: { next?: string | null; onSent?: (
     });
 
     setSending(false);
+
     if (error) {
-      setErrorMsg("No pudimos enviar el link. Verifica tu correo e intenta de nuevo.");
+      if (error.status === 429 || error.code === "over_email_send_rate_limit") {
+        setErrorMsg("Espera un par de minutos antes de volver a intentar — mandaste otro link hace muy poco.");
+      } else {
+        setErrorMsg("No pudimos enviar el link. Verifica tu correo e intenta de nuevo.");
+      }
       return;
     }
+
     setSent(true);
     onSent?.();
   }
