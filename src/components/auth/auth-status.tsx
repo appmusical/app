@@ -6,10 +6,13 @@ import { useRouter } from "next/navigation";
 import { LogOut, User } from "lucide-react";
 import type { SupabaseClient, User as SupabaseUser } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { LoginFields } from "./login-fields";
 
 export function AuthStatus() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const router = useRouter();
   // El cliente solo se crea en el navegador (dentro de useEffect), nunca
   // durante el render en el servidor, donde todavía no hay env vars.
@@ -25,6 +28,9 @@ export function AuthStatus() {
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      // Si el usuario confirma su sesión en otra pestaña (al abrir el
+      // link del correo), esta pestaña lo detecta sola y cierra el panel.
+      if (session?.user) setSheetOpen(false);
     });
     return () => sub.subscription.unsubscribe();
   }, []);
@@ -39,10 +45,30 @@ export function AuthStatus() {
 
   if (!user) {
     return (
-      <Link href="/iniciar-sesion" className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-        <User className="h-4 w-4" />
-        <span className="hidden sm:inline">Iniciar sesión</span>
-      </Link>
+      <>
+        <button
+          onClick={() => setSheetOpen(true)}
+          className="flex items-center gap-1.5 text-sm font-semibold text-foreground"
+        >
+          <User className="h-4 w-4" />
+          <span className="hidden sm:inline">Iniciar sesión</span>
+        </button>
+
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+          <SheetContent title="Inicia sesión">
+            <p className="-mt-2 mb-4 text-sm text-muted">
+              Con tu correo. Si es la primera vez, esto mismo crea tu cuenta.
+            </p>
+            <LoginFields />
+            <p className="mt-5 text-center text-xs text-muted">
+              ¿Tienes una banda?{" "}
+              <Link href="/agregar-banda" className="font-semibold text-primary" onClick={() => setSheetOpen(false)}>
+                Regístrala aquí
+              </Link>
+            </p>
+          </SheetContent>
+        </Sheet>
+      </>
     );
   }
 
