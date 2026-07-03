@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export function Logo({ className, iconSize = 32 }: { className?: string; iconSize?: number }) {
   return (
-    <Link href="/" className={cn("flex items-center gap-2", className)}>
+    <Link href="/" className={cn("flex shrink-0 items-center gap-2", className)}>
       <Image
         src="/brand/logo-mark.png"
         alt="Tarima"
@@ -13,7 +13,7 @@ export function Logo({ className, iconSize = 32 }: { className?: string; iconSiz
         className="shrink-0"
         priority
       />
-      <span className="font-display text-lg font-bold tracking-tight">Tarima</span>
+      <span className="hidden font-display text-lg font-bold tracking-tight sm:inline">Tarima</span>
     </Link>
   );
 }
