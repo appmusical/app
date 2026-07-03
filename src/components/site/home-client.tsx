@@ -12,7 +12,15 @@ import { FiltersPanel, DEFAULT_FILTERS, FilterState } from "./filters-panel";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Band, SortOption, Specialty } from "@/lib/types";
 
-export function HomeClient({ bands }: { bands: Band[] }) {
+export function HomeClient({
+  bands,
+  availableCities,
+  availableGenres,
+}: {
+  bands: Band[];
+  availableCities: string[];
+  availableGenres: string[];
+}) {
   const [query, setQuery] = useState("");
   const [city, setCity] = useState<string | null>(null);
   const [genre, setGenre] = useState<string | null>(null);
@@ -70,6 +78,8 @@ export function HomeClient({ bands }: { bands: Band[] }) {
         city={city}
         genre={genre}
         query={query}
+        availableCities={availableCities}
+        availableGenres={availableGenres}
         onCityChange={handleCityChange}
         onGenreChange={(v) => {
           setGenre(v);

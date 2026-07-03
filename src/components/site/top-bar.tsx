@@ -7,12 +7,13 @@ import { Button } from "@/components/ui/button";
 import { NativeSelect } from "@/components/ui/native-select";
 import { AuthStatus } from "@/components/auth/auth-status";
 import { Logo } from "@/components/brand/logo";
-import { CITIES, GENRES } from "@/lib/mock-data";
 
 export function TopBar({
   city,
   genre,
   query,
+  availableCities,
+  availableGenres,
   onCityChange,
   onGenreChange,
   onQueryChange,
@@ -21,6 +22,8 @@ export function TopBar({
   city: string | null;
   genre: string | null;
   query: string;
+  availableCities: string[];
+  availableGenres: string[];
   onCityChange: (v: string | null) => void;
   onGenreChange: (v: string | null) => void;
   onQueryChange: (v: string) => void;
@@ -73,7 +76,7 @@ export function TopBar({
               onChange={(v) => onCityChange(v === "all" ? null : v)}
               options={[
                 { value: "all", label: "Todas las ciudades" },
-                ...CITIES.map((c) => ({ value: c, label: c })),
+                ...availableCities.map((c) => ({ value: c, label: c })),
               ]}
             />
 
@@ -84,7 +87,7 @@ export function TopBar({
               onChange={(v) => onGenreChange(v === "all" ? null : v)}
               options={[
                 { value: "all", label: "Todos los géneros" },
-                ...GENRES.map((g) => ({ value: g, label: g })),
+                ...availableGenres.map((g) => ({ value: g, label: g })),
               ]}
             />
           </div>

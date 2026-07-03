@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { NativeSelect } from "@/components/ui/native-select";
+import { ComboboxInput } from "@/components/ui/combobox-input";
 import { Field } from "./field";
 import { CITIES, GENRES } from "@/lib/mock-data";
 
@@ -44,20 +44,24 @@ export function BandDataZone({
         </Field>
 
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Ciudad" required>
-            <NativeSelect
-              aria-label="Ciudad"
+          <Field label="Ciudad" required hint="Elige una o escribe la tuya si no aparece">
+            <ComboboxInput
+              listId="ciudades-sugeridas"
               value={values.city}
               onChange={(v) => set("city", v)}
-              options={[{ value: "", label: "Elige una" }, ...CITIES.map((c) => ({ value: c, label: c }))]}
+              options={CITIES}
+              placeholder="Ej. Cancún"
+              required
             />
           </Field>
-          <Field label="Género musical" required>
-            <NativeSelect
-              aria-label="Género musical"
+          <Field label="Género musical" required hint="Elige uno o escribe el tuyo">
+            <ComboboxInput
+              listId="generos-sugeridos"
               value={values.genre}
               onChange={(v) => set("genre", v)}
-              options={[{ value: "", label: "Elige uno" }, ...GENRES.map((g) => ({ value: g, label: g }))]}
+              options={GENRES}
+              placeholder="Ej. Norteño"
+              required
             />
           </Field>
         </div>
