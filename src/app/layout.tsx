@@ -7,6 +7,7 @@ import "@fontsource/space-grotesk/500.css";
 import "@fontsource/space-grotesk/600.css";
 import "@fontsource/space-grotesk/700.css";
 import "./globals.css";
+import { BuiltBy } from "@/components/brand/built-by";
 
 export const metadata: Metadata = {
   title: "Tarima — Encuentra y reserva bandas, orquestas y artistas",
@@ -28,7 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <BuiltBy />
+      </body>
     </html>
   );
 }
