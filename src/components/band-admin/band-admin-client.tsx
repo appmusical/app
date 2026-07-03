@@ -54,7 +54,7 @@ export function BandAdminClient({ band }: { band: Band }) {
         <AvailabilityZoneAdmin occupiedDays={occupiedDays} onChange={setOccupiedDays} />
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-white px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 sm:px-6">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 sm:px-6">
         <div className="mx-auto flex max-w-xl items-center gap-3">
           {savedAt && (
             <span className="flex shrink-0 items-center gap-1 text-xs font-semibold text-green">

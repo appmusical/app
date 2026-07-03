@@ -49,7 +49,7 @@ export function AvailabilityZoneAdmin({
       <div className="mb-3 flex items-center justify-between">
         <button
           onClick={() => setCalDate(new Date(year, month - 1, 1))}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-surface"
           aria-label="Mes anterior"
         >
           <ChevronLeft className="h-3.5 w-3.5" />
@@ -59,7 +59,7 @@ export function AvailabilityZoneAdmin({
         </span>
         <button
           onClick={() => setCalDate(new Date(year, month + 1, 1))}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-surface"
           aria-label="Mes siguiente"
         >
           <ChevronRight className="h-3.5 w-3.5" />

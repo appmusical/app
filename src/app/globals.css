@@ -10,6 +10,9 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-soft: var(--secondary-soft);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-green: var(--green);
@@ -18,6 +21,9 @@
   --color-amber: var(--amber);
   --color-amber-soft: var(--amber-soft);
   --color-amber-foreground: var(--amber-foreground);
+  --color-swiss-red: var(--swiss-red);
+  --color-swiss-red-soft: var(--swiss-red-soft);
+  --color-swiss-red-foreground: var(--swiss-red-foreground);
   --color-border: var(--border);
 
   --font-display: "Space Grotesk", var(--font-sans);
@@ -27,26 +33,47 @@
 }
 
 :root {
-  --background: #ffffff;
-  --surface: #f6f6f8;
-  --surface-2: #ececef;
-  --foreground: #16161a;
-  --muted: #6b6b74;
-  --muted-2: #9a9aa4;
-  --primary: #7c5cfc;
-  --primary-foreground: #ffffff;
-  --primary-soft: #7c5cfc1a;
+  /* Fondo — negro real, como en el logo */
+  --background: #0a0a0b;
+  --surface: #17171a;
+  --surface-2: #212124;
+  --foreground: #f5f5f5;
+  --muted: #a8a8ad;
+  --muted-2: #6f6f76;
+
+  /* Marca — verde lima del logo (#DCE416, extraído directo del archivo) */
+  --primary: #dce416;
+  --primary-foreground: #0a0a0b;
+  --primary-soft: #dce41626;
+
+  /* Toques del sistema anterior — violeta para tags/etiquetas, distinto
+     del lima que ahora es el color de acción (botones, CTAs) */
+  --secondary: #8b7bff;
+  --secondary-foreground: #0a0a0b;
+  --secondary-soft: #8b7bff26;
+
+  /* Coral — se mantiene para destacados/ranking */
   --accent: #ff4d6d;
   --accent-foreground: #ffffff;
-  --green: #16a34a;
-  --green-soft: #16a34a1a;
-  --green-foreground: #ffffff;
+
+  /* Verde de estado (disponible/aprobado) — distinto del lima de marca */
+  --green: #22c55e;
+  --green-soft: #22c55e26;
+  --green-foreground: #0a0a0b;
+
+  /* Ámbar de estado (pendiente) */
   --amber: #f59e0b;
-  --amber-soft: #f59e0b1a;
-  --amber-foreground: #ffffff;
-  --border: #e4e4e9;
-  --shadow-card: 0 1px 2px rgba(20, 20, 25, 0.04), 0 1px 8px rgba(20, 20, 25, 0.06);
-  --shadow-lift: 0 8px 24px rgba(20, 20, 25, 0.1);
+  --amber-soft: #f59e0b26;
+  --amber-foreground: #0a0a0b;
+
+  /* Rojo de la bandera suiza (Pantone 485 C) — solo para rechazo/error */
+  --swiss-red: #d52b1e;
+  --swiss-red-soft: #d52b1e26;
+  --swiss-red-foreground: #ffffff;
+
+  --border: #2a2a2e;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 8px rgba(0, 0, 0, 0.35);
+  --shadow-lift: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
 * {
@@ -54,7 +81,7 @@
 }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }

@@ -16,12 +16,12 @@ export function PackagesZone({ packages }: { packages: Package[] }) {
           <div
             key={pkg.id}
             className={cn(
-              "relative w-[78%] shrink-0 rounded-2xl border bg-white p-[18px] sm:w-[280px]",
-              pkg.popular ? "border-primary shadow-[var(--shadow-card)]" : "border-border"
+              "relative w-[78%] shrink-0 rounded-2xl border bg-surface p-[18px] sm:w-[280px]",
+              pkg.popular ? "border-secondary shadow-[var(--shadow-card)]" : "border-border"
             )}
           >
             {pkg.popular && (
-              <span className="absolute -top-2.5 left-4 rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary-foreground">
+              <span className="absolute -top-2.5 left-4 rounded-full bg-secondary px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-secondary-foreground">
                 Más elegido
               </span>
             )}

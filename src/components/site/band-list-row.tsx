@@ -7,7 +7,7 @@ export function BandListRow({ band, showAvailable }: { band: Band; showAvailable
   return (
     <Link
       href={`/bandas/${band.slug}`}
-      className="flex items-center gap-3 rounded-2xl border border-border bg-white p-2.5 transition-colors hover:border-primary hover:shadow-[var(--shadow-card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-2.5 transition-colors hover:border-primary hover:shadow-[var(--shadow-card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     >
       <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-surface-2 sm:h-16 sm:w-16">
         <Image src={band.coverImage} alt={`Foto de ${band.name}`} fill sizes="64px" className="object-cover" />
@@ -33,7 +33,7 @@ export function BandListRow({ band, showAvailable }: { band: Band; showAvailable
             {band.specialties.slice(0, 2).map((s) => (
               <span
                 key={s}
-                className="shrink-0 rounded-full bg-primary-soft px-2 py-0.5 text-[10px] font-semibold text-primary"
+                className="shrink-0 rounded-full bg-secondary-soft px-2 py-0.5 text-[10px] font-semibold text-secondary"
               >
                 {s}
               </span>

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 const STYLES: Record<ApplicationStatus, string> = {
   pendiente: "bg-amber-soft text-amber",
   aprobada: "bg-green-soft text-green",
-  rechazada: "bg-accent/10 text-accent",
+  rechazada: "bg-swiss-red-soft text-swiss-red",
 };
 
 const LABELS: Record<ApplicationStatus, string> = {

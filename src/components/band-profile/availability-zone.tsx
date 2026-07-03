@@ -64,7 +64,7 @@ export function AvailabilityZone({ occupiedDays, packages }: { occupiedDays: num
       <div className="mb-3 flex items-center justify-between">
         <button
           onClick={() => setCalDate(new Date(year, month - 1, 1))}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-surface"
           aria-label="Mes anterior"
         >
           <ChevronLeft className="h-3.5 w-3.5" />
@@ -74,7 +74,7 @@ export function AvailabilityZone({ occupiedDays, packages }: { occupiedDays: num
         </span>
         <button
           onClick={() => setCalDate(new Date(year, month + 1, 1))}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-surface"
           aria-label="Mes siguiente"
         >
           <ChevronRight className="h-3.5 w-3.5" />
@@ -127,7 +127,7 @@ export function AvailabilityZone({ occupiedDays, packages }: { occupiedDays: num
           </p>
           <button
             onClick={() => setSelectedDate(null)}
-            className="flex h-8 items-center gap-1 rounded-full border border-border bg-white px-3 text-xs font-medium"
+            className="flex h-8 items-center gap-1 rounded-full border border-border bg-surface px-3 text-xs font-medium"
           >
             <X className="h-3 w-3" /> Quitar
           </button>
@@ -135,7 +135,7 @@ export function AvailabilityZone({ occupiedDays, packages }: { occupiedDays: num
       )}
 
       {/* Barra fija de reserva */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-white px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 sm:px-6">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 sm:px-6">
         <div className="mx-auto max-w-[720px]">
           <Button
             className="w-full"
@@ -163,7 +163,7 @@ export function AvailabilityZone({ occupiedDays, packages }: { occupiedDays: num
                 onClick={() => selectPackage(pkg.id)}
                 className={cn(
                   "flex items-center justify-between rounded-2xl border p-3.5 text-left",
-                  chosenPackage === pkg.id ? "border-primary bg-primary-soft" : "border-border bg-white"
+                  chosenPackage === pkg.id ? "border-primary bg-primary-soft" : "border-border bg-surface"
                 )}
               >
                 <span className="text-sm font-semibold">{pkg.name}</span>

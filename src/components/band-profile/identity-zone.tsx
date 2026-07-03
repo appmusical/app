@@ -10,7 +10,7 @@ import { Band } from "@/lib/types";
 export function IdentityZone({ band }: { band: Band }) {
   return (
     <section className="mx-4 mt-5 flex items-start gap-3.5 sm:mx-6">
-      <div className="flex h-[84px] w-[84px] shrink-0 items-center justify-center overflow-hidden rounded-[20px] border border-border bg-white p-1.5 shadow-[var(--shadow-lift)]">
+      <div className="flex h-[84px] w-[84px] shrink-0 items-center justify-center overflow-hidden rounded-[20px] border border-border bg-surface p-1.5 shadow-[var(--shadow-lift)]">
         <Image
           src={band.coverImage}
           alt={`Logo de ${band.name}`}

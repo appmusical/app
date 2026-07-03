@@ -22,7 +22,7 @@ export function ResultsPanel({
   onToggle: () => void;
 }) {
   return (
-    <section className="rounded-3xl border border-border bg-white shadow-[var(--shadow-card)]">
+    <section className="rounded-3xl border border-border bg-surface shadow-[var(--shadow-card)]">
       <button
         onClick={onToggle}
         className="flex w-full items-center justify-between gap-3 px-4 py-4 sm:px-5"

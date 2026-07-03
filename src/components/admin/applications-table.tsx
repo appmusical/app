@@ -181,7 +181,7 @@ export function ApplicationsTable({ initialApplications }: { initialApplications
                         Cancelar
                       </Button>
                       <Button
-                        variant="accent"
+                        variant="destructive"
                         size="sm"
                         className="flex-1"
                         disabled={!rejectionReason.trim() || processing}

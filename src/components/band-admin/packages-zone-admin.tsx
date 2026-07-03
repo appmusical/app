@@ -56,9 +56,9 @@ export function PackagesZoneAdmin({
                 value={pkg.name}
                 onChange={(e) => updatePackage(pkg.id, { name: e.target.value })}
                 placeholder="Nombre del paquete"
-                className="flex-1 rounded-xl border border-border bg-white px-3 py-2 text-sm font-semibold outline-none focus-visible:border-primary"
+                className="flex-1 rounded-xl border border-border bg-surface px-3 py-2 text-sm font-semibold outline-none focus-visible:border-primary"
               />
-              <div className="flex w-32 items-center rounded-xl border border-border bg-white px-3">
+              <div className="flex w-32 items-center rounded-xl border border-border bg-surface px-3">
                 <span className="text-sm text-muted">$</span>
                 <input
                   type="number"
@@ -77,12 +77,12 @@ export function PackagesZoneAdmin({
                     value={item}
                     onChange={(e) => updateInclude(pkg.id, i, e.target.value)}
                     placeholder="Ej. 3 horas de show"
-                    className="flex-1 rounded-xl border border-border bg-white px-3 py-2 text-[13px] outline-none focus-visible:border-primary"
+                    className="flex-1 rounded-xl border border-border bg-surface px-3 py-2 text-[13px] outline-none focus-visible:border-primary"
                   />
                   <button
                     type="button"
                     onClick={() => removeInclude(pkg.id, i)}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-muted hover:bg-white"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-muted hover:bg-surface-2"
                     aria-label="Quitar inclusión"
                   >
                     <X className="h-3.5 w-3.5" />

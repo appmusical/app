@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Music2, Search, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { NativeSelect } from "@/components/ui/native-select";
 import { AuthStatus } from "@/components/auth/auth-status";
+import { Logo } from "@/components/brand/logo";
 import { CITIES, GENRES } from "@/lib/mock-data";
 
 export function TopBar({
@@ -29,12 +30,7 @@ export function TopBar({
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:px-6">
         <div className="flex items-center justify-between gap-3">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-              <Music2 className="h-4 w-4 text-primary-foreground" />
-            </span>
-            <span className="font-display text-lg font-bold tracking-tight">Tarima</span>
-          </Link>
+          <Logo />
 
           <div className="flex items-center gap-2">
             <AuthStatus />

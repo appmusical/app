@@ -26,7 +26,7 @@ export function DescriptionZone({ band }: { band: Band }) {
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         {band.specialties.map((s) => (
-          <span key={s} className="rounded-full bg-primary-soft px-3 py-1.5 text-xs font-semibold text-primary">
+          <span key={s} className="rounded-full bg-secondary-soft px-3 py-1.5 text-xs font-semibold text-secondary">
             {SPECIALTY_EMOJI[s] ?? ""} {s}
           </span>
         ))}
